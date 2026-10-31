@@ -1,0 +1,50 @@
+✅ What is finished
+🟡 What is partially finished
+❌ What is still missing
+
+
+HOTEL MANAGEMENT SYSTEM
+│
+├── Login System
+│   ├── Admin Login ✅
+│   ├── Guest Login (Dummy) 🟡
+│   └── Guest Register (Dummy) 🟡
+│
+├── Room Management ✅
+│   ├── Add Room ✅
+│   ├── View Rooms ✅
+│   ├── Edit Room ✅
+│   ├── Delete Room ✅
+│   └── Filter Room By Status ✅
+│
+├── Guest Management ✅
+│   ├── Add Guest ✅
+│   ├── View Guests ✅
+│   ├── Search Guest ✅
+│   └── Guest ID System 🟡
+│
+├── Reservation System ✅
+│   ├── Book Room ✅
+│   ├── View Reservation ✅
+│   ├── Modify Reservation ✅
+│   └── Cancel Reservation ✅
+│
+├── Check In / Check Out ✅
+│   ├── Check In ✅
+│   ├── Check Out ✅
+│   └── Bill Calculation ✅
+│
+├── File Persistence
+│   ├── Save Rooms ❌
+│   ├── Load Rooms ❌
+│   ├── Save Guests ❌
+│   ├── Load Guests ❌
+│   ├── Save Reservations ❌
+│   └── Load Reservations ❌
+│
+└── Guest Portal
+    ├── View Available Rooms ❌
+    ├── Make Reservation ❌
+    ├── View Own Reservations ❌
+    ├── Cancel Own Reservation ❌
+    └── Update Own Profile ❌
