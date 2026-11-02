@@ -1,78 +1,167 @@
 # Hotel Reservation System
 
-A terminal-based hotel reservation system written in C++. There is no GUI: everything runs through a text menu in the console. Guests can book rooms by themselves, and admins manage the whole hotel.
+A console-based hotel reservation system written in C++. The program is
+operated through text menus and stores its data in local text files.
 
-## Roles
+## Current capabilities
 
-The system has two roles.
+### Admin login
 
-- Admin has full access to the system.
-- Guest has limited access. Including: search rooms, make reservation (view, modify, cancel reservation)
+The application currently provides one hard-coded admin login:
 
+```text
+Username: admin
+Password: admin123
+```
 
-### Account rules
+There are three login attempts.
 
-- Guests can only self-register as the Guest role. The signup screen never lets the user choose a role.
-- A default admin account is created on first run if no users file exists. The admin is asked to change the password immediately.
-- Only an existing admin can create new admin accounts.
-- Passwords are stored as hashes, never as plain text.
-- Permissions are enforced in the business logic, not just by hiding menu options.
+### Room management
 
-## Features
+From the admin menu, you can:
 
-### Core
+- Add rooms with a number, type, capacity, floor, and nightly price
+- View all rooms
+- Edit a room's capacity and floor
+- Delete a room
+- Filter rooms by `Available`, `Occupied`, or `Reserved` status
 
-**Room management (Admin)**
-- Add, edit, and remove rooms (room number, type, price per night, capacity, floor)
-- Room types: Single, Double, Suite
-- Room status: Available, Occupied, Reserved
-- View all rooms and filter by type or status
+The available room types are `Single`, `Double`, and `Suite`. Prices are
+entered in dollars but stored as integer cents.
 
-**Guest management**
-- Guest self-registration with username and password
-- Admin can create guest profiles for walk-ins (no login needed)
-- Search guests by name, phone, or ID (Admin)
-- Guest profile: name, phone, email, ID/passport number
+### Guest management
 
-**Reservations**
-- Search available rooms by date range, room type, and number of guests
-- Create a reservation with a unique booking ID
-- Double-booking prevention through an overlap check
-- Modify or cancel a reservation
-- Status flow: `Pending -> Confirmed -> Checked-in -> Checked-out`, plus `Cancelled` and `No-show`
+From the guest management menu, you can:
 
-**Check-in and check-out (Admin)**
-- Check in a guest against an existing reservation
-- Check out and automatically calculate the total bill (nights x rate)
-- Room status updates automatically
+- Add a guest profile
+- View all guests
+- Search for a guest by exact name
 
+Each new guest receives an ID based on the highest existing ID. A guest
+profile contains a name, phone number, email address, and passport ID.
 
-## Data Storage
+### Reservations and stays
 
-There is no database server. All data is saved to JSON files in a `data/` folder and loaded when the program starts.
+From the reservation menu, an administrator can:
+
+- Book an available room for an existing guest
+- View reservations
+- Modify reservation dates
+- Cancel a reservation
+- Check a guest in
+- Check a guest out and calculate the bill
+
+Booking IDs are generated in the `BK1001`, `BK1002`, ... format. Reservation
+statuses are:
+
+- `Reserved`
+- `Checked In`
+- `Checked Out`
+- `Cancelled`
+
+When a reservation is created, its room becomes `Reserved`. Check-in changes
+the room to `Occupied`; cancellation or check-out changes it back to
+`Available`.
+
+## Project layout
+
+```text
+.
+├── main.cpp
+├── input_utils.cpp
+├── input_utils.h
+├── Guest Management/
+│   ├── guest.cpp
+│   └── guest.h
+├── Reservation System/
+│   ├── reservation.cpp
+│   └── reservation.h
+├── Room Management/
+│   ├── room.cpp
+│   └── room.h
+├── Storage/
+│   ├── storage.cpp
+│   └── storage.h
+├── data/
+│   ├── guests.txt
+│   ├── reservations.txt
+│   └── rooms.txt
+└── Progress.txt
+```
+
+## Building and running
+
+From the project directory, compile all source files with a C++17-compatible
+compiler:
+
+```bash
+g++ -std=c++17 \
+  main.cpp input_utils.cpp \
+  "Guest Management/guest.cpp" \
+  "Reservation System/reservation.cpp" \
+  "Room Management/room.cpp" \
+  "Storage/storage.cpp" \
+  -o hotel
+```
+
+Run the program with:
+
+```bash
+./hotel
+```
+
+On Windows, use the generated `hotel.exe` instead.
+
+## Data persistence
+
+The program loads the data files from the `data/` directory at startup and
+saves all three files after each admin menu action:
 
 | File | Contents |
 |---|---|
-| `data/users.json` | Accounts (username, password hash, role) |
-| `data/guests.json` | Guest profiles |
-| `data/rooms.json` | Rooms, types, prices, status |
-| `data/reservations.json` | All bookings |
+| `data/rooms.txt` | Room number, type, price in cents, capacity, floor, and status |
+| `data/guests.txt` | Guest ID, name, phone, email, and passport ID |
+| `data/reservations.txt` | Booking ID, room number, guest name, dates, status, and guest ID |
 
-Example `rooms.json`:
+Fields are separated by the pipe character (`|`), one record per line.
+Because `|` is the delimiter, it is replaced with `/` when saving text
+fields.
 
-```json
-[
-  { "number": 101, "type": "Single", "pricePerNight": 50, "capacity": 1, "floor": 1, "status": "Available" },
-  { "number": 201, "type": "Double", "pricePerNight": 90, "capacity": 2, "floor": 2, "status": "Available" },
-  { "number": 301, "type": "Suite",  "pricePerNight": 150, "capacity": 4, "floor": 3, "status": "Available" }
-]
+Example records:
+
+```text
+# data/rooms.txt
+101|0|5000|2|2|0
+
+# data/guests.txt
+1|John|01234567|john@email.com|N012345
+
+# data/reservations.txt
+BK1001|201|John|2026-11-02|2026-11-04|1|1
 ```
 
-Notes:
-- JSON is read and written with the [nlohmann/json](https://github.com/nlohmann/json) library (a single header file, `json.hpp`).
-- Files are created automatically on first run if they do not exist.
-- Data is saved after every change (new booking, cancellation, check-in, and so on), so nothing is lost if the program closes.
-- Dates are stored as strings in `YYYY-MM-DD` format.
-- Save to a temporary file first and then rename it, so a crash in the middle of a write cannot corrupt the data file.
+The numeric enum values are:
 
-Default admin account on first run: `admin` / `admin123` (change it immediately).
+| Value | Room type | Room status | Reservation status |
+|---:|---|---|---|
+| `0` | Single | Available | Reserved |
+| `1` | Double | Occupied | Checked In |
+| `2` | Suite | Reserved | Checked Out |
+| `3` | — | — | Cancelled |
+
+If `data/rooms.txt` does not exist on the first run, the program starts with
+sample rooms 101 and 201. Missing guest and reservation files simply start
+empty. The `data/` directory must exist before saving. Malformed records are
+skipped while loading.
+
+## Known limitations
+
+The current implementation does not yet provide:
+
+- Guest accounts or a guest self-service portal
+- Password hashing or configurable users
+- Date validation or reservation overlap checking
+- Room filtering by type
+- Guest search by phone or ID
+- Automatic calculation of nights from the entered dates
+- Atomic writes or a database backend
