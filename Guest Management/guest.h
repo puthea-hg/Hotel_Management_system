@@ -14,6 +14,8 @@ struct Guest {
 
 void addGuest(std::vector<Guest>& guests);
 void listGuests(const std::vector<Guest>& guests);
+void editGuest(std::vector<Guest>& guests);
+void deleteGuest(std::vector<Guest>& guests);
 void searchGuest(const std::vector<Guest>& guests);
 
 // Returns the guest with this ID, or nullptr if there is none.

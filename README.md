@@ -35,6 +35,8 @@ From the guest management menu, you can:
 
 - Add a guest profile
 - View all guests
+- Edit a guest's name, phone number, email address, or passport ID by guest ID
+- Delete a guest by guest ID
 - Search for a guest by exact name
 
 Each new guest receives an ID based on the highest existing ID. A guest

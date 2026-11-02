@@ -1,3 +1,1 @@
-1|sovanda|01234567|sovanda@email.com|N012345
 2|John|0246810|john@email.com|N0246810
-3|sovanda|0123456|sovanda@gmail.com|N0123456
