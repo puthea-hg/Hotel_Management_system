@@ -2,6 +2,7 @@
 #include "../input_utils.h"
 
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -173,6 +174,81 @@ void modifyReservation(vector<Reservation>& reservations){
     cout << "Booking ID Not Found!\n";
 }
 
+// bill calculation function
+double calculateBill(int roomPricePerNightCents, int nights){
+    return (roomPricePerNightCents / 100.0) * nights;
+}
+
+// check in function
+void checkIn(vector<Reservation>& reservations, vector<Room>& rooms){
+    string bookingId;
+    cout << "Please enter your booking ID: ";
+    cin >> bookingId;
+
+    for(Reservation& reservation : reservations){
+        if(reservation.bookingId == bookingId){
+            if(reservation.status != ReservationStatus::Reserved){
+                cout << "Reservation cannot be checked in.\n";
+                return;
+            }
+            reservation.status = ReservationStatus::CheckedIn;
+            for(Room& room : rooms){
+                if(room.number == reservation.roomNumber){
+                    room.status = RoomStatus::Occupied;
+                    break;
+                }
+            }
+            cout << "Guest Checked In Successfully!\n";
+            return;
+        }
+    }
+
+    cout << "Booking ID Not Found!\n";
+}
+
+// check out function
+void checkOut(vector<Reservation>& reservations, vector<Room>& rooms){
+    string bookingId;
+    cout << "Enter Booking ID: ";
+    cin >> bookingId;
+
+    for(Reservation& reservation : reservations){
+        if(reservation.bookingId == bookingId){
+            if(reservation.status != ReservationStatus::CheckedIn){
+                cout << "Guest not checked in.\n";
+                return;
+            }
+
+            int nights;
+            cout << "Number of Nights: ";
+            cin >> nights;
+
+            if(nights <= 0){
+                cout << "Number of nights must be at least 1.\n";
+                return;
+            }
+
+            reservation.status = ReservationStatus::CheckedOut;
+
+            for(Room& room : rooms){
+                if(room.number == reservation.roomNumber){
+                    double bill = calculateBill(room.pricePerNightCents, nights);
+                    room.status = RoomStatus::Available;
+
+                    cout << fixed << setprecision(2);
+                    cout << "Total Bill: $" << bill << "\n";
+                    break;
+                }
+            }
+
+            cout << "Check-Out Successfully!\n";
+            return;
+        }
+    }
+
+    cout << "Booking ID Not Found!\n";
+}
+
 // reservation menu function
 void reservationMenu(vector<Reservation>& reservations, vector<Room>& rooms, const vector<Guest>& guests){
     bool running = true;
@@ -183,9 +259,11 @@ void reservationMenu(vector<Reservation>& reservations, vector<Room>& rooms, con
         cout << "2. View Reservations\n";
         cout << "3. Modify Reservation\n";
         cout << "4. Cancel Reservation\n";
-        cout << "5. Back\n";
+        cout << "5. Check In\n";
+        cout << "6. Check Out\n";
+        cout << "7. Back\n";
 
-        int choice = readMenuChoice("Select: ", 1, 5);
+        int choice = readMenuChoice("Select: ", 1, 7);
         switch(choice){
             case 1:
                 bookRoom(reservations, rooms, guests);
@@ -200,6 +278,12 @@ void reservationMenu(vector<Reservation>& reservations, vector<Room>& rooms, con
                 cancelReservation(reservations, rooms);
                 break;
             case 5:
+                checkIn(reservations, rooms);
+                break;
+            case 6:
+                checkOut(reservations, rooms);
+                break;
+            case 7:
                 running = false;
                 break;
             default:

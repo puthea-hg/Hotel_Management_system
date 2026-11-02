@@ -10,10 +10,9 @@ using namespace std;
 namespace {
 
 const char DELIM = '|';
-const string ROOMS_FILE = "rooms.txt";
-const string GUESTS_FILE = "guests.txt";
-const string RESERVATIONS_FILE = "reservations.txt";
-const string ACCOUNTS_FILE = "accounts.txt";
+const string ROOMS_FILE = "data/rooms.txt";
+const string GUESTS_FILE = "data/guests.txt";
+const string RESERVATIONS_FILE = "data/reservations.txt";
 
 // the delimiter must never appear inside a saved text field
 string clean(string text){
@@ -192,49 +191,6 @@ bool loadReservations(vector<Reservation>& reservations){
         }catch(const exception&){
             continue;
         }
-    }
-    return true;
-}
-
-bool loadAccounts(vector<Account>& accounts){
-    ifstream in(ACCOUNTS_FILE);
-    if(!in){
-        return false;
-    }
-
-    accounts.clear();
-    string line;
-    while(getline(in, line)){
-        if(line.empty()){
-            continue;
-        }
-        vector<string> fields = split(line);
-        if(fields.size() != 3){
-            continue;
-        }
-        try{
-            Account account;
-            account.username = fields[0];
-            account.password = fields[1];
-            account.guestId = stoi(fields[2]);
-            accounts.push_back(account);
-        }catch(const exception&){
-            continue;
-        }
-    }
-    return true;
-}
-
-bool saveAccounts(const vector<Account>& accounts){
-    ofstream out(ACCOUNTS_FILE);
-    if(!out){
-        cerr << "Warning: could not save accounts to file.\n";
-        return false;
-    }
-    for(const Account& account : accounts){
-        out << clean(account.username) << DELIM
-            << clean(account.password) << DELIM
-            << account.guestId << "\n";
     }
     return true;
 }

@@ -42,6 +42,11 @@ void listReservations(const std::vector<Reservation>& reservations);
 void modifyReservation(std::vector<Reservation>& reservations);
 void cancelReservation(std::vector<Reservation>& reservations, std::vector<Room>& rooms);
 
+// check-in / check-out (part of the reservation flow)
+double calculateBill(int roomPricePerNightCents, int nights);
+void checkIn(std::vector<Reservation>& reservations, std::vector<Room>& rooms);
+void checkOut(std::vector<Reservation>& reservations, std::vector<Room>& rooms);
+
 // menu
 void reservationMenu(std::vector<Reservation>& reservations,
                      std::vector<Room>& rooms,
