@@ -51,6 +51,51 @@ void listGuests(const vector<Guest>& guests){
     }
 }
 
+// edit guest function
+void editGuest(vector<Guest>& guests){
+    int guestId;
+    cout << "Enter Guest ID to edit: ";
+    cin >> guestId;
+
+    for(Guest& guest : guests){
+        if(guest.id == guestId){
+            cout << "New Guest Name: ";
+            getline(cin >> ws, guest.name);
+
+            cout << "New Guest Phone Number: ";
+            cin >> guest.phone;
+
+            cout << "New Guest Email Address: ";
+            cin >> guest.email;
+
+            cout << "New Guest Passport ID: ";
+            cin >> guest.passportId;
+
+            cout << "Guest Updated Successfully!\n";
+            return;
+        }
+    }
+
+    cout << "Guest Not Found.\n";
+}
+
+// delete guest function
+void deleteGuest(vector<Guest>& guests){
+    int guestId;
+    cout << "Enter Guest ID to delete: ";
+    cin >> guestId;
+
+    for(auto guest = guests.begin(); guest != guests.end(); ++guest){
+        if(guest->id == guestId){
+            guests.erase(guest);
+            cout << "Guest Deleted Successfully!\n";
+            return;
+        }
+    }
+
+    cout << "Guest Not Found.\n";
+}
+
 // search guest function
 void searchGuest(const vector<Guest>& guests){
     string searchName;
@@ -92,10 +137,12 @@ void guestManagementMenu(vector<Guest>& guests){
         cout << "\n=== Guest Management ===\n"
              << "1. Add Guest\n"
              << "2. View Guests\n"
-             << "3. Search Guest\n"
-             << "4. Back\n";
+             << "3. Edit Guest\n"
+             << "4. Delete Guest\n"
+             << "5. Search Guest\n"
+             << "6. Back\n";
 
-        int choice = readMenuChoice("Select: ", 1, 4);
+        int choice = readMenuChoice("Select: ", 1, 6);
         switch (choice)
         {
         case 1:
@@ -105,9 +152,15 @@ void guestManagementMenu(vector<Guest>& guests){
             listGuests(guests);
             break;
         case 3:
-            searchGuest(guests);
+            editGuest(guests);
             break;
         case 4:
+            deleteGuest(guests);
+            break;
+        case 5:
+            searchGuest(guests);
+            break;
+        case 6:
             running = false;
             break;
         default:
