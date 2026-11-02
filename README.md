@@ -165,5 +165,3 @@ The current implementation does not yet provide:
 - Guest search by phone or ID
 - Automatic calculation of nights from the entered dates
 - Atomic writes or a database backend
-
-See [`Progress.txt`](Progress.txt) for the project's feature checklist.
