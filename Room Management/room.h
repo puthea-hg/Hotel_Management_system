@@ -10,7 +10,7 @@ enum class RoomStatus {Available, Occupied, Reserved};
 struct Room {
     int number{};
     RoomType type{RoomType::Single};
-    int pricePerNightCents{};
+    int pricePerNightDollars{};
     int capacity{};
     int floor{};
     RoomStatus status{RoomStatus::Available};

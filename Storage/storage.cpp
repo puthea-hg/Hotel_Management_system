@@ -45,7 +45,7 @@ bool saveRooms(const vector<Room>& rooms){
     for(const Room& room : rooms){
         out << room.number << DELIM
             << static_cast<int>(room.type) << DELIM
-            << room.pricePerNightCents << DELIM
+            << room.pricePerNightDollars << DELIM
             << room.capacity << DELIM
             << room.floor << DELIM
             << static_cast<int>(room.status) << "\n";
@@ -112,7 +112,7 @@ bool loadRooms(vector<Room>& rooms){
             Room room;
             room.number = stoi(fields[0]);
             room.type = static_cast<RoomType>(type);
-            room.pricePerNightCents = stoi(fields[2]);
+            room.pricePerNightDollars = stoi(fields[2]);
             room.capacity = stoi(fields[3]);
             room.floor = stoi(fields[4]);
             room.status = static_cast<RoomStatus>(status);

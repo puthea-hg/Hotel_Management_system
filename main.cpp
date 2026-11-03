@@ -66,8 +66,8 @@ int main(){
 
     if(!loadRooms(rooms)){
         // first run: no rooms file yet, so start with the sample rooms
-        rooms.push_back({101, RoomType::Single, 5000, 1, 1, RoomStatus::Available});
-        rooms.push_back({201, RoomType::Double, 9000, 2, 2, RoomStatus::Available});
+        rooms.push_back({101, RoomType::Single, 50, 1, 1, RoomStatus::Available});
+        rooms.push_back({201, RoomType::Double, 90, 2, 2, RoomStatus::Available});
     }
     loadGuests(guests);
     loadReservations(reservations);

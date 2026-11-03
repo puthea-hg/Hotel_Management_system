@@ -20,14 +20,16 @@ There are three login attempts.
 
 From the admin menu, you can:
 
-- Add rooms with a number, type, capacity, floor, and nightly price
+- Add rooms with a number, type, capacity, and floor; nightly prices are
+  automatically set to $50 for Single, $90 for Double, and $150 for Suite
 - View all rooms
 - Edit a room's capacity and floor
 - Delete a room
 - Filter rooms by `Available`, `Occupied`, or `Reserved` status
 
 The available room types are `Single`, `Double`, and `Suite`. Prices are
-entered in dollars but stored as integer cents.
+stored directly as whole-dollar amounts: 50 for Single, 90 for Double, and
+150 for Suite.
 
 ### Guest management
 
@@ -120,7 +122,7 @@ saves all three files after each admin menu action:
 
 | File | Contents |
 |---|---|
-| `data/rooms.txt` | Room number, type, price in cents, capacity, floor, and status |
+| `data/rooms.txt` | Room number, type, price in dollars, capacity, floor, and status |
 | `data/guests.txt` | Guest ID, name, phone, email, and passport ID |
 | `data/reservations.txt` | Booking ID, room number, guest name, dates, status, and guest ID |
 
@@ -132,7 +134,7 @@ Example records:
 
 ```text
 # data/rooms.txt
-101|0|5000|2|2|0
+101|0|50|2|2|0
 
 # data/guests.txt
 1|John|01234567|john@email.com|N012345

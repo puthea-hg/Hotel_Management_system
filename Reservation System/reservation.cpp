@@ -175,8 +175,8 @@ void modifyReservation(vector<Reservation>& reservations){
 }
 
 // bill calculation function
-double calculateBill(int roomPricePerNightCents, int nights){
-    return (roomPricePerNightCents / 100.0) * nights;
+double calculateBill(int roomPricePerNightDollars, int nights){
+    return roomPricePerNightDollars * nights;
 }
 
 // check in function
@@ -232,7 +232,7 @@ void checkOut(vector<Reservation>& reservations, vector<Room>& rooms){
 
             for(Room& room : rooms){
                 if(room.number == reservation.roomNumber){
-                    double bill = calculateBill(room.pricePerNightCents, nights);
+                    double bill = calculateBill(room.pricePerNightDollars, nights);
                     room.status = RoomStatus::Available;
 
                     cout << fixed << setprecision(2);

@@ -50,7 +50,7 @@ void listRooms(const vector<Room>& rooms){
              << " | Capacity: " << room.capacity
              << " | Price per night: $"
              << fixed << setprecision(2)
-             << room.pricePerNightCents / 100.0
+             << room.pricePerNightDollars
              << "\n";
     }
 }
@@ -67,7 +67,7 @@ bool roomNumberExists(const vector<Room>& rooms, int number){
 
 // add room function
 bool addRoom(vector<Room>& rooms, const Room& room){
-    if (room.number <= 0 || room.pricePerNightCents <= 0 || room.capacity <= 0){
+    if (room.number <= 0 || room.pricePerNightDollars <= 0 || room.capacity <= 0){
         return false;
     }
     if (roomNumberExists(rooms, room.number)){
@@ -98,12 +98,15 @@ void addRoomMenu(vector<Room>& rooms){
     switch(roomTypeChoice){
         case 1:
             newRoom.type = RoomType::Single;
+            newRoom.pricePerNightDollars = 50;
             break;
         case 2:
             newRoom.type = RoomType::Double;
+            newRoom.pricePerNightDollars = 90;
             break;
         case 3:
             newRoom.type = RoomType::Suite;
+            newRoom.pricePerNightDollars = 150;
             break;
         default:
             cout << "Invalid option please try again!" << endl;
@@ -115,13 +118,6 @@ void addRoomMenu(vector<Room>& rooms){
 
     cout << "Floor: ";
     cin >> newRoom.floor;
-
-    double price;
-
-    cout << "Please enter the price (in USD): ";
-    cin >> price;
-
-    newRoom.pricePerNightCents = static_cast<int>(price*100);
 
     if(addRoom(rooms, newRoom)){
         cout << "Room added successfully\n";
