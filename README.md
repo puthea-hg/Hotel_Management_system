@@ -88,7 +88,6 @@ the room to `Occupied`; cancellation or check-out changes it back to
 │   ├── guests.txt
 │   ├── reservations.txt
 │   └── rooms.txt
-└── Progress.txt
 ```
 
 ## Building and running
