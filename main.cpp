@@ -19,7 +19,7 @@ int showAdminMenu(){
     cout << "Please select any of the following options you want to perform: "
          << "\n1. Room Management"
          << "\n2. Guest Management"
-         << "\n3. Reservation (book, check in, check out)"
+         << "\n3. Reservation"
          << "\n4. Logout\n";
     return readMenuChoice("Select: ", 1, 4);
 }
