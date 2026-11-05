@@ -39,7 +39,6 @@ From the guest management menu, you can:
 - View all guests
 - Edit a guest's name, phone number, email address, or passport ID by guest ID
 - Delete a guest by guest ID
-- Search for a guest by exact name
 
 Each new guest receives an ID based on the highest existing ID. A guest
 profile contains a name, phone number, email address, and passport ID.
@@ -53,7 +52,7 @@ From the reservation menu, an administrator can:
 - Modify reservation dates
 - Cancel a reservation
 - Check a guest in
-- Check a guest out and calculate the bill
+- Check a guest out
 
 Booking IDs are generated in the `BK1001`, `BK1002`, ... format. Reservation
 statuses are:
